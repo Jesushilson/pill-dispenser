@@ -1,5 +1,5 @@
 from datetime import datetime
-import state
+import time
 import threading
 
 from state import set_dispensing, set_idle, set_error
@@ -7,13 +7,14 @@ from state import set_dispensing, set_idle, set_error
 def submit_dispense_job(container, size, count)-> str:
     job_id = "job-" +  datetime.now().strftime("%H:%M:%S")
     def worker():
-        set_dispensing(container, size)
+        set_dispensing(container, size, count)
         # moveToContainer(container)
 
         # moveToSize(size)
 
         for i in range(count):
             # dispense(count)
+            time.sleep(5)
             pass
 
         set_idle()
