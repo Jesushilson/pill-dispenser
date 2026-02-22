@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+from Adafruit_MotorHAT import Adafruit_MotorHAT
+import atexit
 import RPi.GPIO as GPIO
 import time
 
@@ -46,9 +48,7 @@ size_dict = {
 }
 
 
-
-
-# Steps the motor 
+# Steps the motor based on the steps given
 def step_motor(steps, motorType, direction=True):
     if motorType == "motor_1":
         motor_pins = [m1_in1, m1_in2, m1_in3, m1_in4]
@@ -82,6 +82,7 @@ def step_motor(steps, motorType, direction=True):
             GPIO.output(pin, GPIO.LOW)
         GPIO.cleanup()
 
+# Move to the given container
 def moveToContainer(target_container):
     global current_container
 
@@ -96,6 +97,7 @@ def moveToContainer(target_container):
     step_motor(steps, "motor_1", direction)
     current_container = target_container
 
+# Move to the given size
 def moveToSize(target_size):
     global current_size
 
@@ -109,10 +111,25 @@ def moveToSize(target_size):
     step_motor(steps, "motor 2", direction)
     current_size = target_size
 
+# Restart back to original home spots
 def restart_mechanisms():
     moveToContainer(1)
     moveToSize(1)
 
+
+# ------ Dispense With ADA-Fruit HAT ------
+
+# Get the hat
+mh = Adafruit_MotorHAT(addr=0x60)
+
+# Get the motor from the hat
+full_rotation = 4096
+dispenser_motor = mh.getStepper(4096, 1)
+dispenser_motor.setSpeed(10)
+
+def dispense(count):
+    dispenser_motor.step(4096, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    mh.getMotor(1).run(Adafruit_MotorHAT.RELEASE)
 
 if __name__ == "__main__":
     moveToContainer(4)

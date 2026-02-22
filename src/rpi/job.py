@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 import threading
-from motor_control import moveToContainer, moveToSize, restart_mechanisms
+from motor_control import moveToContainer, moveToSize, restart_mechanisms, dispense
 from state import set_dispensing, set_idle, set_error
 
 def submit_dispense_job(container, size, count)-> str:
@@ -12,7 +12,7 @@ def submit_dispense_job(container, size, count)-> str:
         moveToSize(size)
 
         for i in range(count):
-            # dispense(count)
+            dispense(count)
             time.sleep(5)
             pass
         restart_mechanisms()
