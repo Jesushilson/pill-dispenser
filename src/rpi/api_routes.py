@@ -30,13 +30,14 @@ def register_routes(app):
         data = request.get_json()
 
         container = data.get("container")
+        size = data.get("size")
         count = data.get("count")
 
         # Validation: check if we can find the data
-        if container is None or count is None:
+        if container is None or count is None or size is None:
             return jsonify({
                 "ok": False,
-                "error": "Missing container or count"
+                "error": "Missing container or count or size"
             }), 400
 
         # Check if busy: If any of the containers are currently dispensing then 
