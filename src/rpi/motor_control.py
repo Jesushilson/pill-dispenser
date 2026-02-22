@@ -93,7 +93,7 @@ def moveToContainer(target_container):
     # Go the direction where the desination is the closest
     direction = True if diff > 0 else False 
 
-    step_motor(steps, "motor 1", direction)
+    step_motor(steps, "motor_1", direction)
     current_container = target_container
 
 def moveToSize(target_size):
@@ -115,4 +115,6 @@ def restart_mechanisms():
 
 
 if __name__ == "__main__":
-    moveToContainer()
+    moveToContainer(4)
+    moveToSize(2)
+    restart_mechanisms()
