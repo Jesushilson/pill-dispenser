@@ -15,8 +15,8 @@ def register_routes(app):
     state = {
         "status": "idle",
         "job": {
-            "container": 0,
-            "queue": 0
+            "container": None,
+            "queue": None
         }
     }
     # Check the status of the system
@@ -50,6 +50,10 @@ def register_routes(app):
         # job_id = submit_dispense_job(container, count)
         
         # Successfully recieved the data
+        state["status"] = "dispensing"
+        state["job"]["container"] =  container
+        state["job"]["count"] = count
+        
         return jsonify({
             "ok": True,
             "accepted": True,
