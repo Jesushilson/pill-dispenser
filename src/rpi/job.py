@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 import threading
-
+from motor_control import moveToContainer, moveToSize
 from state import set_dispensing, set_idle, set_error
 
 def submit_dispense_job(container, size, count)-> str:
